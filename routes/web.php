@@ -22,3 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/','StaticPageController@home')->name('home');
 Route::get('/help','StaticPageController@help')->name('help');
 Route::get('/about','StaticPageController@about')->name('about');
+
+//hyhyh 注册页面 2021年3月23日11:12:37
+Route::get('signup','UserController@create')->name('signup');
+
