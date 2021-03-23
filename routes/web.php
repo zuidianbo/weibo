@@ -19,6 +19,6 @@ use Illuminate\Support\Facades\Route;
 //});
 
 //hyhyh 2021年3月22日14:07:37
-Route::get('/','StaticPageController@home');
-Route::get('/help','StaticPageController@help');
-Route::get('/about','StaticPageController@about');
+Route::get('/','StaticPageController@home')->name('home');
+Route::get('/help','StaticPageController@help')->name('help');
+Route::get('/about','StaticPageController@about')->name('about');
