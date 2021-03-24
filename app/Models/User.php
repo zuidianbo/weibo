@@ -50,4 +50,10 @@ class User extends Authenticatable
     }
 
 
+    public function hyh($kkk)
+    {
+        $h="这里是测试hyh".$kkk;
+        return $h;
+    }
+
 }
