@@ -3,4 +3,5 @@
 
 @section('content')
    hahhahahahah
+   {{ $user->name }}
 @stop

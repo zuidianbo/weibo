@@ -16,7 +16,7 @@ public function create(){
 
     public function show(User $user)
     {
-        return view('user/show', compact('user'));
+        return view('user.show', compact('user'));
     }
 
 
@@ -33,6 +33,20 @@ public function create(){
             'email' => 'required|email|unique:users|max:255',
             'password' => 'required|confirmed|min:6'
         ]);
-        return;
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
+
+        session()->flash('danger', '这里是你大爷中心~');
+        session()->flash('warning', '这里是你大爷中心~');
+        session()->flash('success', '这里是你大爷中心~');
+        session()->flash('info', '这里是你大爷中心~');
+
+        return redirect()->route('users.show', [$user]);
+
+
     }
 }
