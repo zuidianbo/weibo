@@ -22,10 +22,7 @@ public function create(){
     }
 
 
-    public function index()
-    {
-        return view('user/index');
-    }
+
 
 
     public function store(Request $request)
@@ -98,7 +95,7 @@ public function create(){
 
         //  过滤动作，只有登录了，才能执行除了except中的动作：在这个范围里的，都是登不登录都能执行的。
         $this->middleware('auth', [
-            'except' => ['create','store']
+            'except' => ['create','store','index']
         ]);
 
 //        只让未登录用户访问注册页面：
@@ -107,6 +104,24 @@ public function create(){
             'only' => ['create']
         ]);
 
+    }
+
+
+//    public function index()
+//    {
+//        return view('user/index');
+//    }
+//
+//    用户列表 路由 /users
+    public function index()
+    {
+//        获取所有的数据
+//        $usershhh = User::all();
+
+//        分页
+//       使用 paginate 方法来指定每页生成的数据数量为 10 条
+        $usershhh = User::paginate(10);
+        return view('user.index', compact('usershhh'));
     }
 
 
