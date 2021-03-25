@@ -40,6 +40,10 @@ public function create(){
             'password' => bcrypt($request->password),
         ]);
 
+
+//        注册后自动登录
+        Auth::login($user);
+
         session()->flash('danger', '这里是你大爷中心~');
         session()->flash('warning', '这里是你大爷中心~');
         session()->flash('success', '这里是你大爷中心~');

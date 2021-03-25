@@ -30,6 +30,7 @@ Route::resource('users','UsersController');
 
 
 //会话控制
+
 //显示登录页面
 Route::get('login','SessionController@create')->name('login');
 //创建会话 登录
