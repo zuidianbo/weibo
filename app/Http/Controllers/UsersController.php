@@ -16,6 +16,8 @@ public function create(){
 
     public function show(User $user)
     {
+//        显示用户信息
+        $this->authorize('update', $user);
         return view('user.show', compact('user'));
     }
 
@@ -58,12 +60,14 @@ public function create(){
 //编辑用户
     public function edit(User $user)
     {
+        $this->authorize('update', $user);
         return view('user.edit', compact('user'));
     }
 
 //    保存编辑
     public function update(User $user, Request $request)
     {
+        $this->authorize('update', $user);
         $this->validate($request, [
             'name' => 'required|max:50',
             'password' => 'nullable|confirmed|min:6'
@@ -84,6 +88,25 @@ public function create(){
         session()->flash('success', '个人资料更新成功！');
 
         return redirect()->route('users.show', $user->id);
+    }
+
+
+
+//   对控制器的动作进行过滤
+    public function __construct()
+    {
+
+        //  过滤动作，只有登录了，才能执行除了except中的动作：在这个范围里的，都是登不登录都能执行的。
+        $this->middleware('auth', [
+            'except' => ['create','store']
+        ]);
+
+//        只让未登录用户访问注册页面：
+//        其实也可以通过上面的 auth 属性来对控制器的一些动作进行过滤 上面的auto属性中，except中，去掉create应该也无法访问了，不过那个无法访问是跳转到登录页面，这个是跳转到 /home  由于不存在这个页面 所以 显示404错误！
+        $this->middleware('guest', [
+            'only' => ['create']
+        ]);
+
     }
 
 
