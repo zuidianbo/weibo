@@ -27,3 +27,12 @@ Route::get('/about','StaticPageController@about')->name('about');
 Route::get('signup','UsersController@create')->name('signup');
 
 Route::resource('users','UsersController');
+
+
+//会话控制
+//显示登录页面
+Route::get('login','SessionController@create')->name('login');
+//创建会话 登录
+Route::post('login', 'SessionController@store')->name('login');
+//销毁会话 退出
+Route::delete('logout', 'SessionController@destroy')->name('logout');
