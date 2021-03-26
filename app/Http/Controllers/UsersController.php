@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Mail;
+use Auth;
 
 class UsersController extends Controller
 {
@@ -24,7 +26,7 @@ public function create(){
 
 
 
-
+//注册
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -41,7 +43,10 @@ public function create(){
 
 
 //        注册后自动登录
-        Auth::login($user);
+//        Auth::login($user);
+
+//发送邮件
+        $this->sendEmailConfirmationTo($user);
 
         session()->flash('danger', '这里是你大爷中心~');
         session()->flash('warning', '这里是你大爷中心~');
@@ -95,7 +100,7 @@ public function create(){
 
         //  过滤动作，只有登录了，才能执行除了except中的动作：在这个范围里的，都是登不登录都能执行的。
         $this->middleware('auth', [
-            'except' => ['create','store','index']
+            'except' => ['create','store','index','confirmEmail']
         ]);
 
 //        只让未登录用户访问注册页面：
@@ -132,6 +137,40 @@ public function create(){
         $user->delete();
         session()->flash('success', '成功删除用户！');
         return back();
+    }
+
+
+
+//该方法将用于发送邮件给指定用户。
+    protected function sendEmailConfirmationTo($user)
+    {
+        $view = 'emails.confirm';
+        $data = compact('user');
+        $from = 'summer@example.com';
+        $name = 'Summer';
+        $to = $user->email;
+        $subject = "感谢注册 Weibo 应用！请确认你的邮箱。";
+
+        Mail::send($view, $data, function ($message) use ($from, $name, $to, $subject) {
+            $message->from($from, $name)->to($to)->subject($subject);
+        });
+    }
+
+
+
+//邮件发送
+
+    public function confirmEmail($token)
+    {
+        $user = User::where('activation_token', $token)->firstOrFail();
+
+        $user->activated = true;
+        $user->activation_token = null;
+        $user->save();
+
+        Auth::login($user);
+        session()->flash('success', '恭喜你，激活成功！');
+        return redirect()->route('users.show', [$user]);
     }
 
 }
