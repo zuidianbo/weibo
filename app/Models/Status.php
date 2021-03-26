@@ -13,4 +13,7 @@ class Status extends Model
         return $this->belongsTo(User::class);
     }
 
+//    指定可使用的字段
+    protected $fillable = ['content'];
+
 }
