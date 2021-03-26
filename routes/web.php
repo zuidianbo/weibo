@@ -53,4 +53,6 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 
 //微博
-Route::resource('statuses', 'StatusesController', ['only' => ['store', 'destroy']]);
+Route::resource('statuses', 'StatusesController', ['only' => ['store']]);
+Route::delete('/statuses/{status}', 'StatusesController@destroy1')->name('statuses.destroy1');
+//Route::delete('/users/{user}', 'UsersController@destroy')->name('users.destroy');
