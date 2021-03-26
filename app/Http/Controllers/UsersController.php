@@ -20,7 +20,15 @@ public function create(){
     {
 //        显示用户信息
         $this->authorize('update', $user);
-        return view('user.show', compact('user'));
+//        return view('user.show', compact('user'));
+
+//        微博
+        $statuses = $user->statuses()
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+        return view('user.show', compact('user', 'statuses'));
+
+
     }
 
 
