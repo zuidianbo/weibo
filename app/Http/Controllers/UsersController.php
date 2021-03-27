@@ -19,7 +19,9 @@ public function create(){
     public function show(User $user)
     {
 //        显示用户信息
-        $this->authorize('update', $user);
+//        权限 用户只能编辑自己的资料(只能自己查看自己的个人中心页面=微博列表)
+//        教程最后一节 关注 取消其他用户的时候 要把这个限制去掉！！！
+//        $this->authorize('update', $user);
 //        return view('user.show', compact('user'));
 
 //        微博
@@ -108,7 +110,7 @@ public function create(){
 
         //  过滤动作，只有登录了，才能执行除了except中的动作：在这个范围里的，都是登不登录都能执行的。
         $this->middleware('auth', [
-            'except' => ['create','store','index','confirmEmail']
+            'except' => ['create','store','show','index','confirmEmail']
         ]);
 
 //        只让未登录用户访问注册页面：

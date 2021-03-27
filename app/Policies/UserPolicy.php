@@ -19,7 +19,7 @@ class UserPolicy
         //
     }
 
-//    权限 用户只能编辑自己的资料
+//权限 用户只能编辑自己的资料(只能自己查看自己的个人中心页面=微博列表)
     public function update(User $currentUser, User $user)
     {
         return $currentUser->id === $user->id;
